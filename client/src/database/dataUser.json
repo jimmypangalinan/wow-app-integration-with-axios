@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "email": "jimmi@mail.com",
+    "gender": "Male",
+    "phone": "082269425387",
+    "address": "Makassar"
+  },
+  {
+    "id": 2,
+    "email": "alvinmail.com",
+    "gender": "Male",
+    "phone": "082225437868",
+    "address": "Makassar"
+  },
+  {
+    "id": 3,
+    "email": "syamsul@mail.com",
+    "gender": "Male",
+    "phone": "082276863986",
+    "address": "Makassar"
+  },
+  {
+    "id": 4,
+    "email": "debi@mail.com",
+    "gender": "Male",
+    "phone": "081276863986",
+    "address": "Makassar"
+  }
+]
