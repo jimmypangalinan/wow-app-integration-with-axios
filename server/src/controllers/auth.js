@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
   });
 
   if (userExist) {
-    return res.status(400).send({
+    return res.status(200).send({
       Status: "failed",
       message: "Email Allready Exist",
     });
@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400).send({
+    res.status(200).send({
       status: "Bad Request",
     });
   }
@@ -110,6 +110,7 @@ exports.login = async (req, res) => {
       status: "Success",
       data: {
         email: userExist.email,
+        role: userExist.role,
         token,
       },
     });

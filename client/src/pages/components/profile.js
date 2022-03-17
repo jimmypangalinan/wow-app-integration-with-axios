@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // useContext
 import { UserContextSubscribe } from "../../context/userContextSubscribe";
 import { UserContextModal } from "../../context/userContextModal";
-
+import { UserContextToken } from "../../context/useContextToken";
 //assets
 import Foto from "../../assets/profile.png";
 import Icon from "../../assets/icon-wow.png";
@@ -16,6 +16,7 @@ function Profile() {
   const navigate = useNavigate();
 
   const [show, disShow] = useContext(UserContextModal);
+  const [token, setToken] = useContext(UserContextToken);
 
   function handleProfile() {
     navigate("/profileActive");
@@ -38,6 +39,12 @@ function Profile() {
     });
 
     navigate("/");
+
+    setToken({
+      type: "LOGOUT",
+      isLogin: false,
+      user: {},
+    });
   }
 
   return (

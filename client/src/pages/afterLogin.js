@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import { API } from "../config/api";
 
 // assets
 import { UserContextSubscribe } from "../context/userContextSubscribe";
-import { product } from "../data";
 import Banner from "../assets/banner.png";
 
 // component
@@ -23,6 +23,26 @@ function AfterLogin() {
   function toDetailBook() {
     navigate("/detailBooks");
   }
+
+  // ////////////////////////////
+  const [products, setProduct] = useState([]);
+  // Create function get products data from database here ...
+  const getproducts = async () => {
+    try {
+      const response = await API.get("/books");
+      setProduct(response.data.data.books);
+      console.log("ini adalah" + response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Call function get products with useEffect didMount here ...
+  useEffect(() => {
+    getproducts();
+  }, []);
+
+  console.log(products);
 
   return (
     <div>
@@ -45,16 +65,17 @@ function AfterLogin() {
             <div>
               <h1 className="ms-4 my-4 fw-bold">List Book</h1>
             </div>
+
             {state.isSubs ? (
               <div
                 className="row ms-3"
                 onClick={toDetailBook}
                 style={{ cursor: "pointer" }}
               >
-                {product.map((item, index) => {
+                {products.map((item, index) => {
                   return (
-                    <div className="col-3" key={index}>
-                      <img src={item.image} alt="" />
+                    <div className="col-3" item={item} key={index}>
+                      <img src={item.isbn} alt="" />
                       <h5 className="my-2">{item.title}</h5>
                       <p>{item.author}</p>
                     </div>
@@ -67,10 +88,15 @@ function AfterLogin() {
                 onClick={handleShow}
                 style={{ cursor: "pointer" }}
               >
-                {product.map((item, index) => {
+                {products.map((item, index) => {
                   return (
-                    <div className="col-3" key={index}>
-                      <img src={item.image} alt="" />
+                    <div
+                      className="col-3 bg-info text-wrap border"
+                      item={item}
+                      key={index}
+                    >
+                      <img src={item.cover} alt="" />
+
                       <h5 className="my-2">{item.title}</h5>
                       <p>{item.author}</p>
                     </div>

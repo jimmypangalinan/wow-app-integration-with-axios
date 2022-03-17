@@ -1,24 +1,83 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Modal, Form, Alert } from "react-bootstrap";
+import { API } from "../../config/api";
 
-//component bootstrap
-import { Button, Modal, Form } from 'react-bootstrap';
-
-// import data useContex
-import { UserContextModal } from '../../context/userContextModal';
-import { DataUserLogin } from '../../context/dataUserLogin';
+// useContext
+import { UserContextModal } from "../../context/userContextModal";
+import { DataUserLogin } from "../../context/dataUserLogin";
+import { UserContextToken } from "../../context/useContextToken";
 
 function Login() {
-  // data user login
   const [user, setUser] = useContext(DataUserLogin);
-  console.log('data user' + user.userLogin);
-
-  //  to halaman afterlogin
+  const [token, setToken] = useContext(UserContextToken);
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
-  function handleLogin() {
-    navigate('/afterlogin');
-  }
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = form;
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      // Configuration Content-type
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      // Data body
+      const body = JSON.stringify(form);
+
+      // Insert data user to database
+      const response = await API.post("/login", body, config);
+      console.log(response);
+
+      setToken({
+        type: "LOGIN_SUCCESS",
+        payload: response.data.data,
+      });
+
+      // Notification
+      if (response.data.data.role == "admin") {
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Success
+          </Alert>
+        );
+        setMessage(alert);
+        navigate("/transaction");
+      } else {
+        const alert = (
+          <Alert variant="danger" className="py-1">
+            Success
+          </Alert>
+        );
+        setMessage(alert);
+        navigate("/afterLogin");
+      }
+    } catch (error) {
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Failed !!
+        </Alert>
+      );
+      setMessage(alert);
+      console.log(error);
+    }
+  };
 
   // useContext
   const [state, dispatch] = useContext(UserContextModal);
@@ -26,7 +85,7 @@ function Login() {
 
   const closeModalLogin = () => {
     dispatch({
-      type: 'SHOW',
+      type: "SHOW",
       payload: {
         signIn: false,
         signUp: false,
@@ -36,19 +95,19 @@ function Login() {
 
   const showModalLogin = () => {
     dispatch({
-      type: 'SHOW',
+      type: "SHOW",
       payload: {
         signIn: true,
         signUp: false,
       },
     });
     setUser({
-      type: 'LOGIN',
+      type: "LOGIN",
       userLogin: true,
       payload: {
         user: {
-          name: 'jimmi',
-          mail: 'jimmii',
+          name: "jimmi",
+          mail: "jimmii",
         },
       },
     });
@@ -56,7 +115,7 @@ function Login() {
 
   const showModalSignUpHere = () => {
     dispatch({
-      type: 'SHOW',
+      type: "SHOW",
       payload: {
         signIn: false,
         signUp: true,
@@ -66,31 +125,58 @@ function Login() {
 
   return (
     <>
-      <Modal show={state.show.signIn} size="md" aria-labelledby="contained-modal-title-vcenter" centered onHide={closeModalLogin}>
-        <Form className="p-4">
+      <Modal
+        show={state.show.signIn}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        onHide={closeModalLogin}
+      >
+        <Form className="p-4" onSubmit={handleSubmit}>
           <h3 className="fw-bold py-3">Sign In</h3>
+          {message && message}
           <Form.Group className="mb-4" controlId="formBasicEmail">
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              onChange={handleChange}
+              value={email}
+            />
           </Form.Group>
           <Form.Group className="mb-4" controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              value={password}
+            />
           </Form.Group>
           <div className="d-grid gap-2">
-            <Button variant="danger fw-bold" type="submit" onClick={handleLogin}>
+            <Button variant="danger fw-bold" type="submit">
               Sign In
             </Button>
           </div>
           <div className="text-center mt-2">
             <p>
-              Don't have an account ? Klik{' '}
-              <span className="text-black fw-bold" onClick={showModalSignUpHere} style={{ cursor: 'pointer' }}>
+              Don't have an account ? Klik{" "}
+              <span
+                className="text-black fw-bold"
+                onClick={showModalSignUpHere}
+                style={{ cursor: "pointer" }}
+              >
                 Here
               </span>
             </p>
           </div>
         </Form>
       </Modal>
-      <Button variant="btn-ligth px-5 fw-bold" onClick={showModalLogin} style={{ backgroundColor: '#CDCDCD' }}>
+      <Button
+        variant="btn-ligth px-5 fw-bold"
+        onClick={showModalLogin}
+        style={{ backgroundColor: "#CDCDCD" }}
+      >
         Sign In
       </Button>
     </>

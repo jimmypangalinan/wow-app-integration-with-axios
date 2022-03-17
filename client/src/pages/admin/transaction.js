@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-// component boosttrap
 import { Table, Dropdown } from "react-bootstrap";
+import { API } from "../../config/api";
 
 // component
 import NavbarComponent from "../../pages/components/navbarAdmin";
-
 function Transaction() {
+  const [transaction, setTransaction] = useState([]);
+  // Create function get products data from database here ...
+  const getTransaction = async () => {
+    try {
+      const response = await API.get("/transactions");
+      setTransaction(response.data.data.transaction);
+      console.log("ini adalah" + response);
+      console.log(transaction);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Call function get products with useEffect didMount here ...
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+  console.log(transaction);
   return (
     <div>
       <div>
@@ -27,46 +45,31 @@ function Transaction() {
             </tr>
           </thead>
           <tbody className="">
-            <tr>
-              <td className="text-center">1</td>
-              <td>Jimmy Crystal</td>
-              <td>bil.jpg</td>
-              <td>26 / Hari</td>
-              <td className="text-success">Active</td>
-              <td className="text-success">Approve</td>
-              <td className="text-center">
-                <Dropdown>
-                  <Dropdown.Toggle variant="none shadow-none dropdown-menu-start" />
-                  <Dropdown.Menu className="" style={{ width: "20" }}>
-                    <Dropdown.Item className="fw-bold text-success">
-                      Approve
-                    </Dropdown.Item>
-                    <Dropdown.Item className="fw-bold text-danger">
-                      Cancel
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-center">2</td>
-              <td>Mark</td>
-              <td>bil.jpg</td>
-              <td>@mdo</td>
-              <td className="text-danger">No Active</td>
-              <td className="text-danger">Cancel</td>
-              <td className="text-center">
-                <Dropdown>
-                  <Dropdown.Toggle variant="none" id="dropdown-basic" />
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">
-                      Another action
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </td>
-            </tr>
+            {transaction.map((item, index) => {
+              return (
+                <tr item={item} key={index}>
+                  <td className="text-center">{index + 1}</td>
+                  <td>{item.user.fullName}</td>
+                  <td>{item.transferProof}</td>
+                  <td>{item.remainingActive} / Hari</td>
+                  <td className="text-danger fw-bold">{item.userStatus}</td>
+                  <td className="text-warning fw-bold">{item.paymentStatus}</td>
+                  <td className="text-center">
+                    <Dropdown>
+                      <Dropdown.Toggle variant="none shadow-none dropdown-menu-start" />
+                      <Dropdown.Menu className="" style={{ width: "20" }}>
+                        <Dropdown.Item className="fw-bold text-success">
+                          Approve
+                        </Dropdown.Item>
+                        <Dropdown.Item className="fw-bold text-danger">
+                          Cancel
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </div>

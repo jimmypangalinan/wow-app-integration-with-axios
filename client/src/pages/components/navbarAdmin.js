@@ -31,6 +31,7 @@ function NavbarComponent() {
               src={Logo}
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
+              onClick={handleToLogOut}
             />
           </Navbar.Brand>
           <Navbar.Brand>

@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer } from "react";
 
 // membuat useContext
 // proses membuat data menjadi global
@@ -15,12 +15,12 @@ const reducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         userLogin: true,
         user: payload,
       };
-    case 'NO_LOGIN':
+    case "NO_LOGIN":
       return {
         userLogin: false,
         user: {},
@@ -33,5 +33,9 @@ const reducer = (state, action) => {
 export const DataUserContextProvider = ({ children }) => {
   const [user, setUser] = useReducer(reducer, initialState);
 
-  return <DataUserLogin.Provider value={[user, setUser]}>{children}</DataUserLogin.Provider>;
+  return (
+    <DataUserLogin.Provider value={[user, setUser]}>
+      {children}
+    </DataUserLogin.Provider>
+  );
 };
