@@ -1,29 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 // assets
-import Gender from '../assets/gender.png';
-import Phone from '../assets/phone.png';
-import Mail from '../assets/mail.png';
-import Map from '../assets/map.png';
-import Foto from '../assets/foto.png';
-import Book1 from '../assets/book1.png';
+import Gender from "../assets/gender.png";
+import Phone from "../assets/phone.png";
+import Mail from "../assets/mail.png";
+import Map from "../assets/map.png";
+import Foto from "../assets/foto.png";
 
 // import profile
-import Profile from './components/profile';
+import Profile from "./components/profile";
 
-import { AddMyListContext } from '../context/dataAddMyList';
+import { AddMyListContext } from "../context/dataAddMyList";
 
 function ProfileActive() {
   const navigate = useNavigate();
   function handleToDetailBook() {
-    navigate('/detailBooks');
+    navigate("/detailBooks");
   }
   const [state, dispatch] = useContext(AddMyListContext);
 
   function exploreBook() {
-    navigate('/afterlogin');
+    navigate("/afterlogin");
   }
   return (
     <div>
@@ -40,7 +39,7 @@ function ProfileActive() {
                 <h3 className="py-4 fw-bold ">Profile</h3>
               </div>
             </div>
-            <div className="row rounded" style={{ backgroundColor: '#FFD9D9' }}>
+            <div className="row rounded" style={{ backgroundColor: "#FFD9D9" }}>
               <div className="col-8  ms-4 pt-5 pb-3">
                 <div className="d-flex">
                   <div className="mt-1">
@@ -105,7 +104,11 @@ function ProfileActive() {
               <div className="row d-flex">
                 {state.myList.map((item, index) => {
                   return (
-                    <div className="col-3" key={index} onClick={handleToDetailBook}>
+                    <div
+                      className="col-3"
+                      key={index}
+                      onClick={handleToDetailBook}
+                    >
                       <img src={item.image} alt="" className="" />
                       <h5 className="my-2">{item.title}</h5>
                       <p>{item.author}</p>
