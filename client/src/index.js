@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 import App from "./App";
 
 import { UserContextProvider } from "./context/userContextModal";
@@ -16,7 +18,9 @@ ReactDOM.render(
         <UserContextMyList>
           <DataUserContextProvider>
             <UserContextTokenProvider>
-              <App />
+              <Router>
+                <App />
+              </Router>
             </UserContextTokenProvider>
           </DataUserContextProvider>
         </UserContextMyList>

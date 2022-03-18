@@ -2,36 +2,38 @@ const { product } = require("../../models");
 
 // Add New Product
 exports.addProduct = async (req, res) => {
-  const productExist = await product.findOne({
-    where: {
-      title: req.body.title,
-    },
-  });
-
-  if (productExist) {
-    return res.status(400).send({
-      Status: "failed",
-      message: "Title Allready Exist",
-    });
-  }
-
   try {
-    const newProduct = req.body;
-    const createProduct = await product.create({
+    const productExist = await product.findOne({
+      where: {
+        title: req.body.title,
+      },
+    });
+
+    if (productExist) {
+      return res.status(400).send({
+        Status: "failed",
+        message: "Title Allready Exist",
+      });
+    }
+
+    let newProduct = req.body;
+    let createProduct = await product.create({
       ...newProduct,
       bookFile: req.files.bookFile[0].filename,
       cover: req.files.cover[0].filename,
     });
 
     let createProducts = JSON.parse(JSON.stringify(createProduct));
-
-    res.send({
+    console.log(createProduct);
+    res.status(201).send({
       status: "Success",
       ...createProducts,
       cover: "http://localhost:5000/uploads/cover/" + createProducts.cover,
     });
   } catch (error) {
-    console.log(error);
+    res.status(400).send({
+      status: "failed",
+    });
   }
 };
 
@@ -57,18 +59,22 @@ exports.getProducts = async (req, res) => {
 // get product by id
 exports.getProduct = async (req, res) => {
   try {
-    const products = await product.findOne({
+    let data = await product.findOne({
       where: {
         id: req.params.id,
       },
       attributes: {
-        exclude: ["cover", "createdAt", "updatedAt"],
+        exclude: ["createdAt", "updatedAt"],
       },
     });
+
+    data = JSON.parse(JSON.stringify(data));
+
     res.send({
       status: "Success",
-      data: {
-        book: products,
+      book: {
+        ...data,
+        cover: process.env.FILE_PATH + data.cover,
       },
     });
   } catch (error) {

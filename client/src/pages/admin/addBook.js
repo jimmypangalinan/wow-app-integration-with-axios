@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, alert } from "react-bootstrap";
 import NavbarComponent from "../components/navbarAdmin";
 import Attach from "../../assets/attach.png";
@@ -45,10 +45,10 @@ function AddBook() {
       formData.set("bookFile", form.bookFile[0], form.bookFile[0].name);
       formData.set("cover", form.cover[0], form.cover[0].name);
 
-      console.log(formData);
       // Insert data user to database
       const response = await API.post("/addProduct", formData, config);
-      console.log("ini res" + response);
+
+      console.log(formData);
     } catch (error) {
       console.log(error);
     }
@@ -147,15 +147,6 @@ function AddBook() {
                 <button className="btn  btn-danger" type="submit">
                   Add Book
                 </button>
-              </Form.Group>
-              <Form.Group className="mb-3 text-end">
-                <input
-                  id="input-b1"
-                  name="input-b1"
-                  type="file"
-                  class="file"
-                  data-browse-on-zone-click="true"
-                />
               </Form.Group>
             </Form>
           </div>

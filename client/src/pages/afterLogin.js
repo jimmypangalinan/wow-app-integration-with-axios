@@ -4,29 +4,29 @@ import { Modal } from "react-bootstrap";
 import { API } from "../config/api";
 
 // assets
-import { UserContextSubscribe } from "../context/userContextSubscribe";
+// import { UserContextSubscribe } from "../context/userContextSubscribe";
 import Banner from "../assets/banner.png";
-
+import { UserContextToken } from "../context/useContextToken";
 // component
 import Profile from "./components/profile";
 
 function AfterLogin() {
-  const [state, dispatch] = useContext(UserContextSubscribe);
-  const [show, setShow] = useState(false);
+  const [state, dispatch] = useContext(UserContextToken);
+  // const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  console.log(state);
+  // const handleClose = () => setShow(false);
+  // function handleShow() {
+  //   setShow(true);
+  // }
 
-  const handleClose = () => setShow(false);
-  function handleShow() {
-    setShow(true);
-  }
-
-  function toDetailBook() {
-    navigate("/detailBooks");
-  }
+  // function toDetailBook() {
+  //   navigate("/detailBooks");
+  // }
 
   // ////////////////////////////
   const [products, setProduct] = useState([]);
-  // Create function get products data from database here ...
+
   const getproducts = async () => {
     try {
       const response = await API.get("/books");
@@ -44,15 +44,19 @@ function AfterLogin() {
 
   console.log(products);
 
+  // function toDetailsBook () => {
+
+  // }
+
   return (
     <div>
-      <Modal show={show} onHide={handleClose} className="mt-5">
+      {/* <Modal show={show} onHide={handleClose} className="mt-5">
         <div className="py-3 text-center">
           <p className="fw-bold my-3 mx-5 text-danger">
             Please Make a Payment To Read The Latest Books
           </p>
         </div>
-      </Modal>
+      </Modal> */}
       <div className="container">
         <div className="row">
           <div className="col-3  position-relative">
@@ -69,13 +73,25 @@ function AfterLogin() {
             {state.isSubs ? (
               <div
                 className="row ms-3"
-                onClick={toDetailBook}
+                // onClick={handleShow}
+
                 style={{ cursor: "pointer" }}
               >
                 {products.map((item, index) => {
                   return (
-                    <div className="col-3" item={item} key={index}>
-                      <img src={item.isbn} alt="" />
+                    <div
+                      className="col-3 text-wrap"
+                      item={item}
+                      key={item.id}
+                      onClick={() => {
+                        navigate(`/detailBooks/${item.id}`);
+                      }}
+                    >
+                      <img
+                        src={`http://localhost:5000/uploads/cover/${item.cover}`}
+                        alt=""
+                      />
+
                       <h5 className="my-2">{item.title}</h5>
                       <p>{item.author}</p>
                     </div>
@@ -83,19 +99,26 @@ function AfterLogin() {
                 })}
               </div>
             ) : (
-              <div
-                className="row ms-3"
-                onClick={handleShow}
-                style={{ cursor: "pointer" }}
-              >
-                {products.map((item, index) => {
+              <div className="row ms-3" style={{ cursor: "pointer" }}>
+                {products.map((item) => {
+                  {
+                    console.log(item);
+                  }
                   return (
                     <div
-                      className="col-3 bg-info text-wrap border"
+                      className="col-3 text-wrap"
                       item={item}
-                      key={index}
+                      key={item.id}
+                      onClick={() => {
+                        navigate(`/detailBooks/${item.id}`);
+                      }}
                     >
-                      <img src={item.cover} alt="" />
+                      <img
+                        src={`http://localhost:5000/uploads/cover/${item.cover}`}
+                        alt=""
+                        className="img-fluid  mx-auto w-100"
+                        style={{ height: 320, borderRadius: 8 }}
+                      />
 
                       <h5 className="my-2">{item.title}</h5>
                       <p>{item.author}</p>

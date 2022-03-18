@@ -36,16 +36,8 @@ function NavbarComponent() {
           </Navbar.Brand>
           <Navbar.Brand>
             <Dropdown className="toggle">
-              <Dropdown.Toggle
-                variant=""
-                className="shadow-none"
-                id="dropdown-basic"
-              >
-                <img
-                  src={IconProfile}
-                  className="d-inline-block align-top"
-                  alt="React Bootstrap logo"
-                />
+              <Dropdown.Toggle variant="" className="shadow-none">
+                <img src={IconProfile} className="d-inline-block align-top" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="mt-2 dropdown-menu-center">
                 <Dropdown.Item className="fw-bold">
@@ -53,7 +45,7 @@ function NavbarComponent() {
                     src={IconAddBook}
                     className="me-3 my-2"
                     onClick={handleToAddBook}
-                  />{" "}
+                  />
                   Add Book
                 </Dropdown.Item>
                 <li>
@@ -64,7 +56,7 @@ function NavbarComponent() {
                     src={IconLogOut}
                     onClick={handleToLogOut}
                     className="me-3 my-2"
-                  />{" "}
+                  />
                   Log Out
                 </Dropdown.Item>
               </Dropdown.Menu>

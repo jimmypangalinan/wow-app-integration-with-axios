@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { API } from "../config/api";
 
 // assets
 import Gender from "../assets/gender.png";
@@ -12,18 +13,37 @@ import Foto from "../assets/foto.png";
 // import profile
 import Profile from "./components/profile";
 
-import { AddMyListContext } from "../context/dataAddMyList";
+// import { AddMyListContext } from "../context/dataAddMyList";
 
 function ProfileActive() {
   const navigate = useNavigate();
   function handleToDetailBook() {
     navigate("/detailBooks");
   }
-  const [state, dispatch] = useContext(AddMyListContext);
+  // const [state, dispatch] = useContext(AddMyListContext);
 
   function exploreBook() {
     navigate("/afterlogin");
   }
+
+  /////////
+
+  const [myList, setMyList] = useState([]);
+
+  const getMyList = async () => {
+    try {
+      const response = await API.get("/myLists");
+      setMyList(response.data.myListExis);
+      console.log(response);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getMyList();
+  }, []);
+
+  console.log(myList);
+
   return (
     <div>
       <div className="container">
@@ -102,16 +122,21 @@ function ProfileActive() {
             </div>
             <div className="row justify-content-center">
               <div className="row d-flex">
-                {state.myList.map((item, index) => {
+                {myList.map((item, index) => {
                   return (
                     <div
                       className="col-3"
                       key={index}
-                      onClick={handleToDetailBook}
+                      // onClick={handleToDetailBook}
                     >
-                      <img src={item.image} alt="" className="" />
-                      <h5 className="my-2">{item.title}</h5>
-                      <p>{item.author}</p>
+                      <img
+                        src={`http://localhost:5000/uploads/cover/${item.product.cover}`}
+                        alt=""
+                        className="img-fluid mx-auto w-100"
+                        style={{ height: 320, borderRadius: 8 }}
+                      />
+                      <h5 className="my-2">{item.product.title}</h5>
+                      <p>{item.product.author}</p>
                     </div>
                   );
                 })}

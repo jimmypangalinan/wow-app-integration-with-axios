@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ReactReader, ReactReaderStyle } from "react-reader";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { API } from "../config/api";
 import NavbarComponent from "../pages/components/navbarAdmin";
 
-// import { epub } from "../../dataDummy/fileEpub";
-
 const ReadBook = () => {
-  const navigate = useNavigate();
-  // const [location, setLocation] = useState(null);
-  // const locationChanged = (epubcifi) => {
-  //   setLocation(epubcifi);
-  // };
+  const [read, setRead] = useState({});
+  const { id } = useParams();
+  const getproduct = async () => {
+    try {
+      const response = await API.get(`/book/${id}`);
+      setRead(response.data.book);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    getproduct();
+  }, []);
   const ownStyles = {
     ...ReactReaderStyle,
     arrow: {
@@ -28,11 +35,7 @@ const ReadBook = () => {
       <div style={{ height: "100vh", position: "relative" }}>
         <ReactReader
           styles={ownStyles}
-          // location={location}
-          // locationChanged={locationChanged}
-          // url={"http://localhost:3000/src/media/alice1.epub"}
-          // url="http://localhost:3000/static/media/alice.epub"
-          url="https://gerhardsletten.github.io/react-reader/files/alice.epub"
+          url={`http://localhost:5000/uploads/books/${read.bookFile}`}
         />
       </div>
     </div>

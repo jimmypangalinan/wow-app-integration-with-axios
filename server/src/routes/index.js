@@ -20,7 +20,10 @@ const {
 } = require("../controllers/user");
 
 //  controller auth
-const { register, login } = require("../controllers/auth");
+const { register, login, checkAuth } = require("../controllers/auth");
+
+// mylist
+const { addMyList, getMyList } = require("../controllers/myList");
 
 // controller product
 const {
@@ -39,6 +42,7 @@ const { uploadProof } = require("../middlewares/uploadProof");
 //  auth login
 router.post("/register", register);
 router.post("/login", login);
+router.get("/check-auth", auth, checkAuth);
 
 // user
 router.get("/users", getUsers);
@@ -59,5 +63,9 @@ router.get("/transaction/:id", getTransaction);
 router.post("/transaction", auth, uploadProof("transferProof"), addTransaction);
 router.patch("/transaction/:id", auth, updateTransaction);
 router.delete("/transaction/:id", deleteTransaction);
+
+// mylist
+router.post("/myList", auth, addMyList);
+router.get("/myLists", auth, getMyList);
 
 module.exports = router;

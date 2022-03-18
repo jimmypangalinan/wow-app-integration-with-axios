@@ -15,6 +15,13 @@ module.exports = (sequelize, DataTypes) => {
           name: "idUser",
         },
       });
+
+      myList.belongsTo(models.product, {
+        as: "product",
+        foreignKey: {
+          name: "idBook",
+        },
+      });
     }
   }
   myList.init(
