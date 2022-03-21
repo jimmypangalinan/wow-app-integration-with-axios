@@ -4,12 +4,10 @@ import { Button, Modal, Form, Alert } from "react-bootstrap";
 import { API } from "../../config/api";
 
 // useContext
-import { UserContextModal } from "../../context/userContextModal";
-import { DataUserLogin } from "../../context/dataUserLogin";
-import { UserContextToken } from "../../context/useContextToken";
+import { UserContextToken } from "../../context/useContext";
+import { UserContextModal } from "../../context/useContextModal";
 
 function Login() {
-  const [user, setUser] = useContext(DataUserLogin);
   const [token, setToken] = useContext(UserContextToken);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
@@ -51,7 +49,7 @@ function Login() {
       });
 
       // Notification
-      if (response.data.data.role == "admin") {
+      if (response.data.data.role === "admin") {
         const alert = (
           <Alert variant="success" className="py-1">
             Success
@@ -79,7 +77,7 @@ function Login() {
     }
   };
 
-  // useContext
+  // useContext for hide dan show Modal
   const [state, dispatch] = useContext(UserContextModal);
   console.log(state);
 
@@ -99,16 +97,6 @@ function Login() {
       payload: {
         signIn: true,
         signUp: false,
-      },
-    });
-    setUser({
-      type: "LOGIN",
-      userLogin: true,
-      payload: {
-        user: {
-          name: "jimmi",
-          mail: "jimmii",
-        },
       },
     });
   };

@@ -89,6 +89,13 @@ exports.login = async (req, res) => {
       where: {
         email: req.body.email,
       },
+      // include: {
+      //   model: profile,
+      //   as: "profile",
+      //   attributes: {
+      //     exclude: ["createdAt", "updatedAt"],
+      //   },
+      // },
     });
 
     const isValid = await bcrypt.compare(req.body.password, userExist.password);
@@ -112,6 +119,7 @@ exports.login = async (req, res) => {
         email: userExist.email,
         role: userExist.role,
         token,
+        userExist,
       },
     });
   } catch (error) {
@@ -138,13 +146,14 @@ exports.checkAuth = async (req, res) => {
 
     if (!dataUser) {
       return res.status(404).send({
-        status: "failed",
+        status: "Failed",
       });
     }
 
     res.send({
-      status: "success",
+      status: "Success",
       data: {
+        // dataUser,
         user: {
           id: dataUser.id,
           name: dataUser.name,

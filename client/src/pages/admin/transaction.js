@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { Table, Dropdown } from "react-bootstrap";
 import { API } from "../../config/api";
 
@@ -7,6 +6,17 @@ import { API } from "../../config/api";
 import NavbarComponent from "../../pages/components/navbarAdmin";
 function Transaction() {
   const [transaction, setTransaction] = useState([]);
+  const [aprove] = useState({
+    remainingActive: 30,
+    paymentStatus: "Approved",
+    userStatus: "Active",
+  });
+
+  const [cancel] = useState({
+    remainingActive: 0,
+    paymentStatus: "Cancel",
+    userStatus: "No Active",
+  });
   // Create function get products data from database here ...
   const getTransaction = async () => {
     try {
@@ -19,12 +29,39 @@ function Transaction() {
     }
   };
 
-  // Call function get products with useEffect didMount here ...
   useEffect(() => {
     getTransaction();
   }, []);
 
-  console.log(transaction);
+  const approvedTrans = async (id) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const respone = await API.patch(`/transaction/${id}`, aprove, config);
+      getTransaction();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const cancelTrans = async (id) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const respone = await API.patch(`/transaction/${id}`, cancel, config);
+      getTransaction();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -52,16 +89,37 @@ function Transaction() {
                   <td>{item.user.fullName}</td>
                   <td>{item.transferProof}</td>
                   <td>{item.remainingActive} / Hari</td>
-                  <td className="text-danger fw-bold">{item.userStatus}</td>
-                  <td className="text-warning fw-bold">{item.paymentStatus}</td>
+                  {item.userStatus === "Active" ? (
+                    <td className="text-success fw-bold">Active</td>
+                  ) : (
+                    <td className="text-danger fw-bold">No Active</td>
+                  )}
+
+                  {item.paymentStatus === "Approved" ? (
+                    <td className="text-success fw-bold">Aprove</td>
+                  ) : item.paymentStatus === "Pending" ? (
+                    <td className="text-warning fw-bold">Pending</td>
+                  ) : (
+                    <td className="text-danger fw-bold">Cancel</td>
+                  )}
                   <td className="text-center">
                     <Dropdown>
                       <Dropdown.Toggle variant="none shadow-none dropdown-menu-start" />
                       <Dropdown.Menu className="" style={{ width: "20" }}>
-                        <Dropdown.Item className="fw-bold text-success">
+                        <Dropdown.Item
+                          className="fw-bold text-success"
+                          onClick={() => {
+                            approvedTrans(item.id);
+                          }}
+                        >
                           Approve
                         </Dropdown.Item>
-                        <Dropdown.Item className="fw-bold text-danger">
+                        <Dropdown.Item
+                          className="fw-bold text-danger"
+                          onClick={() => {
+                            cancelTrans(item.id);
+                          }}
+                        >
                           Cancel
                         </Dropdown.Item>
                       </Dropdown.Menu>

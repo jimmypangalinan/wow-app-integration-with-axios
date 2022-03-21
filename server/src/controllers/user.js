@@ -24,15 +24,9 @@ exports.getUser = async (req, res) => {
   try {
     const userExist = await user.findOne({
       where: {
-        id: req.params.id,
+        id: req.user.id,
       },
-      include: {
-        model: profile,
-        as: "profile",
-        attributes: {
-          exclude: ["idUser", "createdAt", "updatedAt"],
-        },
-      },
+
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
@@ -43,9 +37,10 @@ exports.getUser = async (req, res) => {
         status: "Data No Exist",
       });
     } else {
+      dataUser = JSON.parse(JSON.stringify(userExist));
       res.status(200).send({
         status: "Succes",
-        user: userExist,
+        dataUser,
       });
     }
   } catch (error) {

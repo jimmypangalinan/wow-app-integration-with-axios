@@ -4,7 +4,7 @@ const { transaction, user } = require("../../models");
 exports.addTransaction = async (req, res) => {
   const detailTrans = await transaction.findOne({
     where: {
-      idUser: req.body.idUser,
+      idUser: req.user.id,
     },
   });
 
@@ -14,11 +14,12 @@ exports.addTransaction = async (req, res) => {
       message: "you still have an unfinished transaction, please wait !!",
     });
   }
-
+  console.log(req.user.id);
   try {
     newTransaction = req.body;
     const createTransaction = await transaction.create({
       ...newTransaction,
+      idUser: req.user.id,
       transferProof: req.file.filename,
       remainingActive: 0,
       userStatus: "Not Active",
@@ -137,12 +138,10 @@ exports.getTransaction = async (req, res) => {
 // update transaction by id
 exports.updateTransaction = async (req, res) => {
   try {
-    const newUpdate = req.body;
+    newUpdate = req.body;
     const updateTransaction = await transaction.update(
       {
         ...newUpdate,
-        remainingActive: 30,
-        userStatus: "Active",
       },
       {
         where: {
@@ -176,6 +175,7 @@ exports.updateTransaction = async (req, res) => {
         exclude: ["createdAt", "updatedAt"],
       },
     });
+
     res.status(200).send({
       status: "Success",
       data: {

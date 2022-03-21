@@ -17,6 +17,7 @@ exports.addProduct = async (req, res) => {
     }
 
     let newProduct = req.body;
+
     let createProduct = await product.create({
       ...newProduct,
       bookFile: req.files.bookFile[0].filename,

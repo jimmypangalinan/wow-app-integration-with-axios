@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContextToken } from "../../context/useContext";
+import { API } from "../../config/api";
 
-// useContext
-import { UserContextSubscribe } from "../../context/userContextSubscribe";
-import { UserContextModal } from "../../context/userContextModal";
-import { UserContextToken } from "../../context/useContextToken";
 //assets
 import Foto from "../../assets/profile.png";
 import Icon from "../../assets/icon-wow.png";
@@ -13,10 +11,25 @@ import Bill from "../../assets/bill.png";
 import Logout from "../../assets/logout.png";
 
 function Profile() {
-  const navigate = useNavigate();
+  const [profile, setProfile] = useState([]);
+  const getProfile = async () => {
+    try {
+      const response = await API.get("/user");
+      setProfile(response.data.dataUser);
+      console.log(response);
+    } catch (error) {}
+  };
 
-  const [show, disShow] = useContext(UserContextModal);
-  const [token, setToken] = useContext(UserContextToken);
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  console.log(profile);
+
+  //////////////////
+  const navigate = useNavigate();
+  const [state, dispatch] = useContext(UserContextToken);
+  console.log(state);
 
   function handleProfile() {
     navigate("/profileActive");
@@ -25,26 +38,12 @@ function Profile() {
     navigate("/subscribe");
   }
 
-  const [state, dispatch] = useContext(UserContextSubscribe);
-
   function handleLogOut() {
     dispatch({
-      type: "SUBSCRIBE",
-      payload: false,
-    });
-
-    disShow({
-      type: "NOT_SHOW",
-      isLogin: false,
-    });
-
-    navigate("/");
-
-    setToken({
       type: "LOGOUT",
       isLogin: false,
-      user: {},
     });
+    navigate("/");
   }
 
   return (
@@ -56,21 +55,21 @@ function Profile() {
             alt=""
             className="logo"
             style={{ cursor: "pointer" }}
+            onClick={() => {
+              navigate("/afterlogin");
+            }}
           />
         </div>
         <div className="mb-4">
           <img src={Foto} alt="" />
         </div>
         <div className="my-4">
-          <h4 className="fw-bold mb-4">Jimmy Pangalinan</h4>
+          <h4 className="fw-bold mb-4">
+            {profile ? <span>{profile.fullName}</span> : <span>null</span>}
+          </h4>
           <h5 className="text-danger fw-bold">
-            {state.isSubs ? (
-              <p className="text-success">Subscribe</p>
-            ) : (
-              <p>Not Subscribe</p>
-            )}
+            {profile ? <span>{profile.status}</span> : <span>null</span>}
           </h5>
-          {console.log("ini adalah" + state.isSubs)}
         </div>
         <hr />
         <div

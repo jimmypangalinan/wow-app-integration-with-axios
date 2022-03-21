@@ -5,27 +5,18 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import App from "./App";
 
-import { UserContextProvider } from "./context/userContextModal";
-import { UserContextSubscribes } from "./context/userContextSubscribe";
-import { UserContextMyList } from "./context/dataAddMyList";
-import { DataUserContextProvider } from "./context/dataUserLogin";
-import { UserContextTokenProvider } from "./context/useContextToken";
+import { UserContextTokenProvider } from "./context/useContext";
+import { UserContextModalProvider } from "./context/useContextModal";
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserContextProvider>
-      <UserContextSubscribes>
-        <UserContextMyList>
-          <DataUserContextProvider>
-            <UserContextTokenProvider>
-              <Router>
-                <App />
-              </Router>
-            </UserContextTokenProvider>
-          </DataUserContextProvider>
-        </UserContextMyList>
-      </UserContextSubscribes>
-    </UserContextProvider>
+    <UserContextModalProvider>
+      <UserContextTokenProvider>
+        <Router>
+          <App />
+        </Router>
+      </UserContextTokenProvider>
+    </UserContextModalProvider>
   </React.StrictMode>,
 
   document.getElementById("root")

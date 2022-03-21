@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../config/api";
-
-// assetss
-import ReadBook from "../assets/read.png";
-
 // component
 import Profile from "../pages/components/profile";
-import ButtonAddMyList from "./components/buttonAddMyList";
+import ReadBook from "../assets/read.png";
+import AddMyList from "../assets/add-my-list.png";
 
 function Detailbooks() {
   const navigate = useNavigate();
@@ -81,7 +78,9 @@ function Detailbooks() {
               <p>{product.about}</p>
             </div>
             <div className="d-flex justify-content-end">
-              <ButtonAddMyList />
+              <button className="btn btn-danger me-3 fw-bold">
+                Add My List <img src={AddMyList} alt="" className="ms-3" />
+              </button>
               <button
                 className="btn fw-bold"
                 onClick={handleReadBook}

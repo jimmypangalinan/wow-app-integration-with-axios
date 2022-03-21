@@ -1,12 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect } from "react";
-
-import {
-  // BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // pages
 import LandingPage from "./pages/landingPage";
@@ -18,11 +12,14 @@ import ProfileActive from "./pages/profileActive";
 import Transaction from "./pages/admin/transaction";
 import AddBook from "./pages/admin/addBook";
 
+// API
 import { API, setAuthToken } from "./config/api";
+
 // private route
 import PrivateRoute from "./pages/components/privateRoute/private";
 
-import { UserContextToken } from "./context/useContextToken";
+// useComtext
+import { UserContextToken } from "./context/useContext";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -33,6 +30,7 @@ function App() {
   const [state, dispatch] = useContext(UserContextToken);
   // console.clear();
   console.log(state);
+
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
@@ -42,7 +40,7 @@ function App() {
     if (!state.isLogin) {
       navigate("/");
     } else {
-      if (state.user.role == "admin") {
+      if (state.user.role === "admin") {
         navigate("/transaction");
       } else if (state.user.role == "user") {
         navigate("/afterLogin");
@@ -53,7 +51,7 @@ function App() {
   const checkUser = async () => {
     try {
       const response = await API.get("/check-auth");
-
+      console.log(response);
       // If the token incorrect
       if (response.status === 404) {
         return dispatch({
@@ -61,12 +59,11 @@ function App() {
         });
       }
 
-      // Get user data
-      let payload = response.data.data;
-      // Get token from local storage
+      // data user
+      let payload = response.data.data.user;
       payload.token = localStorage.token;
 
-      // Send data to useContext
+      // send data to useContext
       dispatch({
         type: "USER_SUCCESS",
         payload,

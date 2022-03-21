@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Container, Navbar, Dropdown } from "react-bootstrap";
-
+import { UserContextToken } from "../../context/useContext";
 import "../../style/navbar.css";
 
 // assets
@@ -18,7 +18,14 @@ function NavbarComponent() {
     navigate("/addBook");
   }
 
+  // //////
+  const [state, dispatch] = useContext(UserContextToken);
+
   function handleToLogOut() {
+    dispatch({
+      type: "LOGOUT",
+      isLogin: false,
+    });
     navigate("/");
   }
 
@@ -40,23 +47,18 @@ function NavbarComponent() {
                 <img src={IconProfile} className="d-inline-block align-top" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="mt-2 dropdown-menu-center">
-                <Dropdown.Item className="fw-bold">
-                  <img
-                    src={IconAddBook}
-                    className="me-3 my-2"
-                    onClick={handleToAddBook}
-                  />
+                <Dropdown.Item className="fw-bold" onClick={handleToAddBook}>
+                  <img src={IconAddBook} className="me-3 my-2" />
                   Add Book
                 </Dropdown.Item>
                 <li>
-                  <hr class="dropdown-divider" />
+                  <hr className="dropdown-divider" />
                 </li>
-                <Dropdown.Item className="fw-bold text-danger">
-                  <img
-                    src={IconLogOut}
-                    onClick={handleToLogOut}
-                    className="me-3 my-2"
-                  />
+                <Dropdown.Item
+                  className="fw-bold text-danger"
+                  onClick={handleToLogOut}
+                >
+                  <img src={IconLogOut} className="me-3 my-2" />
                   Log Out
                 </Dropdown.Item>
               </Dropdown.Menu>

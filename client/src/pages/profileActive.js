@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { API } from "../config/api";
+import { UserContextToken } from "../context/useContext";
 
 // assets
 import Gender from "../assets/gender.png";
@@ -13,21 +13,36 @@ import Foto from "../assets/foto.png";
 // import profile
 import Profile from "./components/profile";
 
-// import { AddMyListContext } from "../context/dataAddMyList";
-
 function ProfileActive() {
+  const [state, dispatch] = useContext(UserContextToken);
+  console.log(state);
   const navigate = useNavigate();
-  function handleToDetailBook() {
-    navigate("/detailBooks");
-  }
-  // const [state, dispatch] = useContext(AddMyListContext);
+  // function handleToDetailBook() {
+  //   navigate("/detailBooks");
+  // }
 
   function exploreBook() {
     navigate("/afterlogin");
   }
 
-  /////////
+  //profile
+  const [profile, setProfile] = useState([]);
 
+  const getProfile = async () => {
+    try {
+      const response = await API.get("/profile");
+      setProfile(response.data.dataProfiles);
+      console.log(response);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  console.log(profile);
+
+  // mylist
   const [myList, setMyList] = useState([]);
 
   const getMyList = async () => {
@@ -66,7 +81,12 @@ function ProfileActive() {
                     <img src={Mail} alt="" width={40} />
                   </div>
                   <div className="ms-4">
-                    <h6 className="fw-bold">jimmi@mail.com</h6>
+                    {profile ? (
+                      <p className="fw-bold">{state.user.email}</p>
+                    ) : (
+                      <p className="fw-bold">{state.user.email}</p>
+                    )}
+
                     <p>email</p>
                   </div>
                 </div>
@@ -75,8 +95,15 @@ function ProfileActive() {
                     <img src={Gender} alt="" width={40} />
                   </div>
                   <div className="ms-4">
-                    <h6 className="fw-bold">Jimmi</h6>
-                    <p>Name</p>
+                    <h6 className="fw-bold">
+                      <span>Male</span>
+                      {profile ? (
+                        <span>{profile.gender}</span>
+                      ) : (
+                        <span>Null</span>
+                      )}
+                    </h6>
+                    <p>Gender</p>
                   </div>
                 </div>
                 <div className="d-flex">
@@ -84,7 +111,13 @@ function ProfileActive() {
                     <img src={Phone} alt="" width={40} />
                   </div>
                   <div className="ms-4">
-                    <h6 className="fw-bold">+62 987265386</h6>
+                    <h6 className="fw-bold">
+                      {profile ? (
+                        <span>{profile.phone}</span>
+                      ) : (
+                        <span>Null</span>
+                      )}
+                    </h6>
                     <p>Phone</p>
                   </div>
                 </div>
@@ -93,7 +126,13 @@ function ProfileActive() {
                     <img src={Map} alt="" width={40} />
                   </div>
                   <div className="ms-4">
-                    <h6 className="fw-bold">Ciputit</h6>
+                    <h6 className="fw-bold">
+                      {profile ? (
+                        <span>{profile.address}</span>
+                      ) : (
+                        <span>Null</span>
+                      )}
+                    </h6>
                     <p>Address</p>
                   </div>
                 </div>
@@ -126,8 +165,11 @@ function ProfileActive() {
                   return (
                     <div
                       className="col-3"
-                      key={index}
-                      // onClick={handleToDetailBook}
+                      item={item}
+                      key={item.idBook}
+                      onClick={() => {
+                        navigate(`/detailBooks/${item.idBook}`);
+                      }}
                     >
                       <img
                         src={`http://localhost:5000/uploads/cover/${item.product.cover}`}

@@ -6,21 +6,21 @@ exports.addMyList = async (req, res) => {
     let data = await myList.findOne({
       where: {
         idUser: req.user.id,
-        idBook: req.body.idBook,
+        idBook: req.params,
       },
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
     });
     console.log(req.body.idBook);
+
     if (data) {
       await myList.destroy({
         where: {
           idUser: req.user.id,
-          idBook: req.body.idBook,
+          idBook: req.params,
         },
       });
-
       res.send({
         status: "Success",
         message: "Buku Tersedia di MyList",
@@ -28,7 +28,7 @@ exports.addMyList = async (req, res) => {
     } else {
       await myList.create({
         idUser: req.user.id,
-        idBook: req.body.idBook,
+        idBook: req.params,
       });
 
       res.send({
@@ -50,7 +50,6 @@ exports.addMyList = async (req, res) => {
 };
 
 // Get MyList By Id User
-
 exports.getMyList = async (req, res) => {
   try {
     const myListExist = await myList.findAll({

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form, alert } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import NavbarComponent from "../components/navbarAdmin";
 import Attach from "../../assets/attach.png";
 import { API } from "../../config/api";
@@ -27,7 +27,6 @@ function AddBook() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      // Configuration Content-type
       const config = {
         headers: {
           "Content-type": "multipart/form-data",
@@ -45,10 +44,8 @@ function AddBook() {
       formData.set("bookFile", form.bookFile[0], form.bookFile[0].name);
       formData.set("cover", form.cover[0], form.cover[0].name);
 
-      // Insert data user to database
       const response = await API.post("/addProduct", formData, config);
-
-      console.log(formData);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +63,7 @@ function AddBook() {
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Control
+                  style={{ backgroundColor: "#F4F1F1" }}
                   type="text"
                   name="title"
                   onChange={handleChange}
@@ -73,6 +71,7 @@ function AddBook() {
                 />
               </Form.Group>
               <Form.Control
+                style={{ backgroundColor: "#F4F1F1" }}
                 type="text"
                 name="publicationDate"
                 onChange={handleChange}
@@ -81,14 +80,17 @@ function AddBook() {
               <Form.Group className="mb-3" />
               <Form.Group className="mb-3">
                 <Form.Control
+                  style={{ backgroundColor: "#F4F1F1" }}
                   type="text"
                   name="pages"
                   onChange={handleChange}
                   placeholder="Pages"
+                  value=""
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Control
+                  style={{ backgroundColor: "#F4F1F1" }}
                   type="text"
                   name="author"
                   onChange={handleChange}
@@ -97,14 +99,17 @@ function AddBook() {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Control
+                  style={{ backgroundColor: "#F4F1F1" }}
                   type="text"
                   name="isbn"
                   onChange={handleChange}
                   placeholder="ISBN"
+                  value=""
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Control
+                  style={{ backgroundColor: "#F4F1F1" }}
                   as="textarea"
                   type="text"
                   name="about"
@@ -144,7 +149,11 @@ function AddBook() {
                 </label>
               </Form.Group>
               <Form.Group className="mb-3 text-end">
-                <button className="btn  btn-danger" type="submit">
+                <button
+                  className="btn  btn-danger"
+                  type="submit"
+                  style={{ width: 200 }}
+                >
                   Add Book
                 </button>
               </Form.Group>

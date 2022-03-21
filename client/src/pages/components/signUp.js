@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../config/api";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
-import { UserContextModal } from "../../context/userContextModal";
-import { UserContextToken } from "../../context/useContextToken";
+import { UserContextToken } from "../../context/useContext";
+import { UserContextModal } from "../../context/useContextModal";
 
 function SignUp() {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
+
   const [token, setToken] = useContext(UserContextToken);
 
   const [form, setForm] = useState({

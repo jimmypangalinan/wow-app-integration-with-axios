@@ -25,6 +25,9 @@ const { register, login, checkAuth } = require("../controllers/auth");
 // mylist
 const { addMyList, getMyList } = require("../controllers/myList");
 
+// profile
+const { getProfile } = require("../controllers/profile");
+
 // controller product
 const {
   addProduct,
@@ -46,7 +49,7 @@ router.get("/check-auth", auth, checkAuth);
 
 // user
 router.get("/users", getUsers);
-router.get("/user/:id", getUser);
+router.get("/user", auth, getUser);
 router.patch("/updateUser/:id", updateUser);
 router.delete("/deleteUser/:id", deleteUser);
 
@@ -67,5 +70,8 @@ router.delete("/transaction/:id", deleteTransaction);
 // mylist
 router.post("/myList", auth, addMyList);
 router.get("/myLists", auth, getMyList);
+
+// profile
+router.get("/profile", auth, getProfile);
 
 module.exports = router;
