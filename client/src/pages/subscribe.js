@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Modal } from "react-bootstrap";
+import { Form, Alert, Modal } from "react-bootstrap";
 import { API } from "../config/api";
 import { UserContextToken } from "../context/useContext";
 
@@ -12,6 +12,7 @@ import Attach from "../assets/attach.png";
 import Profile from "../pages/components/profile";
 
 function Subscribe() {
+  const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     transferProof: "",
   });
@@ -45,6 +46,11 @@ function Subscribe() {
       const response = await API.post("/transaction", formData, config);
       console.log(response);
     } catch (error) {
+      <Alert variant="danger" className="py-1">
+        Failed !!
+      </Alert>;
+
+      setMessage(alert);
       console.log(error);
     }
   };
@@ -104,7 +110,7 @@ function Subscribe() {
                       placeholder="Input Your Account Number"
                     />
                   </div>
-
+                  {message && message}
                   <label className="col-10 border border-danger mt-3 ps-3 py-2 fw-bold text-start text-danger">
                     Attache proof of transfer
                     <input

@@ -2,11 +2,12 @@ const { myList, product } = require("../../models");
 
 // Create & Delete My List MyList
 exports.addMyList = async (req, res) => {
+  const { id } = req.params;
   try {
     let data = await myList.findOne({
       where: {
         idUser: req.user.id,
-        idBook: req.params,
+        idBook: id,
       },
       attributes: {
         exclude: ["createdAt", "updatedAt"],
@@ -18,21 +19,21 @@ exports.addMyList = async (req, res) => {
       await myList.destroy({
         where: {
           idUser: req.user.id,
-          idBook: req.params,
+          idBook: id,
         },
       });
       res.send({
-        status: "Success",
-        message: "Buku Tersedia di MyList",
+        status: "Delete",
+        message: "Buku Berhasil di Hapus dari My List",
       });
     } else {
       await myList.create({
         idUser: req.user.id,
-        idBook: req.params,
+        idBook: id,
       });
 
       res.send({
-        status: "Success",
+        status: "Create",
         message: "Berhasil di Tambahkan",
       });
     }

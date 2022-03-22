@@ -68,7 +68,11 @@ function Profile() {
             {profile ? <span>{profile.fullName}</span> : <span>null</span>}
           </h4>
           <h5 className="text-danger fw-bold">
-            {profile ? <span>{profile.status}</span> : <span>null</span>}
+            {profile.status == "Subscribe" ? (
+              <span className="text-success">Subscribe</span>
+            ) : (
+              <span>Not Subscribe Yet</span>
+            )}
           </h5>
         </div>
         <hr />

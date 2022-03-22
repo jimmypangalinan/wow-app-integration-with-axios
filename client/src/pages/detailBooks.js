@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../config/api";
+import { Alert } from "react-bootstrap";
 // component
 import Profile from "../pages/components/profile";
 import ReadBook from "../assets/read.png";
@@ -26,8 +27,6 @@ function Detailbooks() {
 
   const { id } = useParams();
 
-  console.log(id);
-
   const getproduct = async () => {
     try {
       const response = await API.get(`/book/${id}`);
@@ -42,6 +41,61 @@ function Detailbooks() {
     getproduct();
   }, []);
 
+  // get mylist
+  // const [mylist, setMylist] = useState([]);
+
+  // const getMylist = async () => {
+  //   try {
+  //     const response = await API.get("/mylists");
+  //     setMylist(response);
+  //     console.log(mylist);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getMylist();
+  // }, []);
+
+  // add my list
+  const [message, setMessage] = useState(null);
+  const [button, setButton] = useState(null);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const response = await API.post(`/addmylist/${id}`, config);
+      console.log(response);
+
+      if (response.data.status === "Delete") {
+        const alert = (
+          <Alert variant="danger" className="py-1">
+            Book Success Delete on Mylist
+          </Alert>
+        );
+        setMessage(alert);
+        setButton(true);
+      } else {
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Book Success Add on Mylist
+          </Alert>
+        );
+        setMessage(alert);
+        setButton(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className="container">
@@ -54,7 +108,12 @@ function Detailbooks() {
           <div className="col-9">
             <div className="row ">
               <div className="col-5 mt-3">
-                <img src={product.cover} alt="" className="img-fluid" />
+                <img
+                  src={product.cover}
+                  alt=""
+                  className="img-fluid shadow"
+                  style={{ borderRadius: 20 }}
+                />
               </div>
               <div className="col-6 ms-3 mt-3">
                 <h1 className="fw-bold">{product.title}</h1>
@@ -77,10 +136,34 @@ function Detailbooks() {
               <h3 className="mt-3 fw-bold">About This Book</h3>
               <p>{product.about}</p>
             </div>
+            {message && message}
             <div className="d-flex justify-content-end">
-              <button className="btn btn-danger me-3 fw-bold">
-                Add My List <img src={AddMyList} alt="" className="ms-3" />
-              </button>
+              {/* <button
+                className="btn btn-danger me-3 fw-bold"
+                onClick={handleSubmit}
+              >
+                Add or Delete My List
+                <img src={AddMyList} alt="" className="ms-3" />
+              </button> */}
+
+              {button ? (
+                <button
+                  className="btn btn-danger me-3 fw-bold"
+                  onClick={handleSubmit}
+                >
+                  Add My List
+                  <img src={AddMyList} alt="" className="ms-3" />
+                </button>
+              ) : (
+                <button
+                  className="btn btn-light me-3 fw-bold"
+                  onClick={handleSubmit}
+                >
+                  Delete My List
+                  <img src={AddMyList} alt="" className="ms-3" />
+                </button>
+              )}
+
               <button
                 className="btn fw-bold"
                 onClick={handleReadBook}

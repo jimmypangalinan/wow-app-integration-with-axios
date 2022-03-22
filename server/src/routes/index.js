@@ -68,7 +68,7 @@ router.patch("/transaction/:id", auth, updateTransaction);
 router.delete("/transaction/:id", deleteTransaction);
 
 // mylist
-router.post("/myList", auth, addMyList);
+router.post("/addmyList/:id", auth, addMyList);
 router.get("/myLists", auth, getMyList);
 
 // profile

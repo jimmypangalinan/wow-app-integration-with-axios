@@ -56,25 +56,25 @@ function AfterLogin() {
           </p>
         </div>
       </Modal>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-3  position-relative">
-            <div className="position-fixed">
+          <div className="col-3 position-relative ">
+            <div className="position-fixed ms-5 ps-3">
               <Profile userStatus={getProfile} />
             </div>
           </div>
           <div className="col-9">
-            <img src={Banner} alt="" className="banner" />
+            <img src={Banner} alt="" className="w-100" />
             <div>
               <h1 className="ms-4 my-4 fw-bold">List Book</h1>
             </div>
 
             {status.status === "Not subscribe" ? (
-              <div className="row ms-3" style={{ cursor: "pointer" }}>
+              <div className="row ms-3 me-2" style={{ cursor: "pointer" }}>
                 {products.map((item) => {
                   return (
                     <div
-                      className="col-3 text-wrap"
+                      className="col-3 text-wrap "
                       item={item}
                       key={item.id}
                       onClick={() => {
@@ -84,8 +84,8 @@ function AfterLogin() {
                       <img
                         src={`http://localhost:5000/uploads/cover/${item.cover}`}
                         alt=""
-                        className="img-fluid  mx-auto w-100"
-                        style={{ height: 320, borderRadius: 8 }}
+                        className="img-fluid shadow mx-auto w-100"
+                        style={{ height: 390, borderRadius: 8 }}
                       />
 
                       <h5 className="my-2">{item.title}</h5>
@@ -109,8 +109,8 @@ function AfterLogin() {
                       <img
                         src={`http://localhost:5000/uploads/cover/${item.cover}`}
                         alt=""
-                        className="img-fluid  mx-auto w-100"
-                        style={{ height: 320, borderRadius: 8 }}
+                        className="img-fluid shadow  mx-auto w-100"
+                        style={{ height: 390, borderRadius: 8 }}
                       />
 
                       <h5 className="my-2">{item.title}</h5>

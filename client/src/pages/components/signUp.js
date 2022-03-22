@@ -68,7 +68,7 @@ function SignUp() {
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1">
-          Failed !!
+          Input field cannot be empty !!
         </Alert>
       );
       setMessage(alert);

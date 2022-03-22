@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
 import NavbarComponent from "../components/navbarAdmin";
 import Attach from "../../assets/attach.png";
 import { API } from "../../config/api";
 
 function AddBook() {
+  const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     title: "",
     publicationDate: "",
@@ -46,7 +47,29 @@ function AddBook() {
 
       const response = await API.post("/addProduct", formData, config);
       console.log(response);
+
+      if (response.data.status == "Success") {
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Success Add Book
+          </Alert>
+        );
+        setMessage(alert);
+      } else {
+        const alert = (
+          <Alert variant="info" className="py-1">
+            Your Title Book Already Exist !!
+          </Alert>
+        );
+        setMessage(alert);
+      }
     } catch (error) {
+      const alert = (
+        <Alert variant="danger" className="py-1 w-50">
+          Falied to add book !!!
+        </Alert>
+      );
+      setMessage(alert);
       console.log(error);
     }
   };
@@ -59,8 +82,10 @@ function AddBook() {
           <div className="row mx-5 pb-2">
             <h2 className="fw-bold">Add Book</h2>
           </div>
+
           <div className="row mx-5 ">
             <Form onSubmit={handleSubmit}>
+              {message && message}
               <Form.Group className="mb-3">
                 <Form.Control
                   style={{ backgroundColor: "#F4F1F1" }}
@@ -85,7 +110,6 @@ function AddBook() {
                   name="pages"
                   onChange={handleChange}
                   placeholder="Pages"
-                  value=""
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -104,7 +128,6 @@ function AddBook() {
                   name="isbn"
                   onChange={handleChange}
                   placeholder="ISBN"
-                  value=""
                 />
               </Form.Group>
               <Form.Group className="mb-3">

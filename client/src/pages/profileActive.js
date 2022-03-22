@@ -12,6 +12,7 @@ import Foto from "../assets/foto.png";
 
 // import profile
 import Profile from "./components/profile";
+import EditProfile from "./components/editProfile";
 
 function ProfileActive() {
   const [state, dispatch] = useContext(UserContextToken);
@@ -140,10 +141,8 @@ function ProfileActive() {
               <div className="col-3">
                 <div className="col pt-5">
                   <img src={Foto} alt="" className="rounded" />
-                  <div className="d-grid ">
-                    <button className="btn btn-danger my-3" type="button">
-                      Edit Profile
-                    </button>
+                  <div className="row pt-4">
+                    <EditProfile />
                   </div>
                 </div>
               </div>

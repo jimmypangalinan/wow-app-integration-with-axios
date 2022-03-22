@@ -5,9 +5,14 @@ import { API } from "../../config/api";
 // component
 import NavbarComponent from "../../pages/components/navbarAdmin";
 function Transaction() {
+  let future = new Date();
+  future.setDate(future.getDate() + 30);
+
+  console.log(future);
+
   const [transaction, setTransaction] = useState([]);
   const [aprove] = useState({
-    remainingActive: 30,
+    remainingActive: future,
     paymentStatus: "Approved",
     userStatus: "Active",
   });
@@ -33,6 +38,7 @@ function Transaction() {
     getTransaction();
   }, []);
 
+  // approved transaction
   const approvedTrans = async (id) => {
     try {
       const config = {
@@ -47,6 +53,8 @@ function Transaction() {
       console.log(error);
     }
   };
+
+  // cancel transaction
   const cancelTrans = async (id) => {
     try {
       const config = {

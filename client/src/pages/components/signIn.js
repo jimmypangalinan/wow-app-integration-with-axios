@@ -69,7 +69,7 @@ function Login() {
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1">
-          Failed !!
+          Email or Password Wrong !!!!
         </Alert>
       );
       setMessage(alert);

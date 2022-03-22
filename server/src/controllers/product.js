@@ -10,7 +10,7 @@ exports.addProduct = async (req, res) => {
     });
 
     if (productExist) {
-      return res.status(400).send({
+      return res.status(200).send({
         Status: "failed",
         message: "Title Allready Exist",
       });

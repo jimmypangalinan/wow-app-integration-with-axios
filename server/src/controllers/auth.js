@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
       email: req.body.email,
       password: hashPassword,
       role: "user",
-      status: "not subscribe",
+      status: "Not subscribe",
     });
 
     const dataToken = {
@@ -89,19 +89,12 @@ exports.login = async (req, res) => {
       where: {
         email: req.body.email,
       },
-      // include: {
-      //   model: profile,
-      //   as: "profile",
-      //   attributes: {
-      //     exclude: ["createdAt", "updatedAt"],
-      //   },
-      // },
     });
 
     const isValid = await bcrypt.compare(req.body.password, userExist.password);
     console.log(isValid);
     if (!isValid) {
-      return res.status(400).send({
+      return res.status(200).send({
         status: "Email or Password Wrong",
       });
     }
