@@ -55,6 +55,18 @@ function NavbarUser() {
                   <hr className="dropdown-divider" />
                 </li>
                 <Dropdown.Item
+                  className="fw-bold"
+                  onClick={() => {
+                    navigate("/complain");
+                  }}
+                >
+                  <img src={IconAddBook} className="me-3 my-2" />
+                  Chat Admin
+                </Dropdown.Item>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <Dropdown.Item
                   className="fw-bold text-danger"
                   onClick={handleToLogOut}
                 >

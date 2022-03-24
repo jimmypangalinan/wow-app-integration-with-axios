@@ -6,11 +6,10 @@ import { API } from "../../config/api";
 import NavbarComponent from "../../pages/components/navbarAdmin";
 function Transaction() {
   //////////////////////
-  const [startDate, setStartDate] = useState("");
+  const [startDate1, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [timeActive, settimeActive] = useState("");
 
-  console.log(startDate);
   // --------------------- menentukan start date hari ini -----------------------------
   var months = [
     "01",
@@ -39,7 +38,7 @@ function Transaction() {
 
   // ------------------ menentukan due date --------------------------------------
   const loadDueDate = async () => {
-    var d = new Date(startDate);
+    var d = new Date(startDate1);
     console.log(d.toLocaleDateString());
     d.setDate(d.getDate() + 30);
     const options1 = { year: "numeric" };
@@ -53,14 +52,15 @@ function Transaction() {
   };
 
   // --------- menghotung selisih hari dari sekarang dengan due date --------------
-  var date1 = new Date(startDate); // tanggal sekarang
+  var date1 = new Date(startDate1); // tanggal sekarang
   var date2 = new Date(dueDate); // tanggal masa berlangganan
 
   var Difference_In_Time = date2.getTime() - date1.getTime();
 
   var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-  console.log(Difference_In_Days);
+
   // Delete ketika tanggal berlangganan lebih kecil sama dengan tanggal sekarang
+
   // if (dueDate <= startDate) {
   //   try {
   //     API.delete(`/transaction/${byId}`);
@@ -75,15 +75,25 @@ function Transaction() {
   ///////////////////
   const [transaction, setTransaction] = useState([]);
 
+  // console.log(startDate1);
+  // console.log(`${dueDate}`);
+  // console.log(`${Difference_In_Days}`);
+  // console.log(typeof startDate1);
+
   // state approve
   const [aprove] = useState({
-    remainingActive: Difference_In_Days,
+    endDate: `${dueDate}`,
+    remainingActive: `${Difference_In_Days}`,
     paymentStatus: "Approved",
     userStatus: "Active",
   });
 
+  console.log(aprove);
+
   // // state cancel
   const [cancel] = useState({
+    startDate: Date.parse(startDate1),
+    endDate: Date.parse(dueDate),
     remainingActive: 0,
     paymentStatus: "Cancel",
     userStatus: "No Active",
@@ -126,23 +136,19 @@ function Transaction() {
         },
       };
 
-      let a = `${startDate}`;
-
-      console.log(a);
-      console.log(`${dueDate}`);
-      console.log(`${Difference_In_Days}`);
-      // console.log(`${Date.Now()}`);
-
-      // const formData = new FormData();
+      const formData = new FormData();
+      formData.set("startDate", `${startDate1}`);
+      formData.set("endDate", `${dueDate}`);
       // formData.set("startDate", `${startDate}`);
-      // formData.set("startDate", `${Date.Now()}`);
-      // formData.set("endDate", `${dueDate}`);
+      // formData.set("startDate", "2021-03-23");
+      // formData.set("endDate", "2022-04-23");
       // formData.set("remainingActive", `${Difference_In_Days}`);
-      // formData.set("remainingActive", 0);
-      // formData.set("paymentStatus", "Approved");
-      // formData.set("userStatus", "Active");
+      formData.set("remainingActive", "0");
+      formData.set("paymentStatus", "Approved");
+      formData.set("userStatus", "Active");
 
-      const respone = await API.patch(`/transaction/${id}`, aprove, config);
+      const respone = await API.patch(`/transaction/${id}`, formData, config);
+      // console.log(respone);
       getTransaction();
     } catch (error) {
       console.log(error);
@@ -171,7 +177,7 @@ function Transaction() {
 
   useEffect(() => {
     loadDueDate();
-  }, [startDate]);
+  }, [startDate1]);
 
   return (
     <div>

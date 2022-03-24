@@ -153,7 +153,10 @@ function ProfileActive() {
                       src={Foto}
                       alt=""
                       className="rounded img-fluid shadow"
-                      style={{ width: 300, height: 230 }}
+                      style={{
+                        height: 300,
+                        clipPath: "polygon()",
+                      }}
                     />
                   )}
                 </div>

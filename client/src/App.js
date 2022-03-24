@@ -11,6 +11,8 @@ import Subscribe from "./pages/subscribe";
 import ProfileActive from "./pages/profileActive";
 import Transaction from "./pages/admin/transaction";
 import AddBook from "./pages/admin/addBook";
+import Complain from "./pages/complain";
+import ComplainAdmin from "./pages/complainAdmin";
 
 // API
 import { API, setAuthToken } from "./config/api";
@@ -88,6 +90,8 @@ function App() {
       <Route exact path="/profileActive" element={<ProfileActive />} />
       <Route exact path="/detailBooks/:id" element={<Detailbooks />} />
       <Route exact path="/readBook/:id" element={<ReadBook />} />
+      <Route exact path="/complain" element={<Complain />} />
+      <Route exact path="/complainAdmin" element={<ComplainAdmin />} />
       <Route exact path="/" element={<PrivateRoute />}>
         {/* for rpivate routes */}
       </Route>

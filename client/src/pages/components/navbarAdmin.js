@@ -70,6 +70,18 @@ function NavbarComponent() {
                   <hr className="dropdown-divider" />
                 </li>
                 <Dropdown.Item
+                  className="fw-bold"
+                  onClick={() => {
+                    navigate("/complainAdmin");
+                  }}
+                >
+                  <img src={IconTransaction} className="me-3 my-2" />
+                  Complain
+                </Dropdown.Item>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <Dropdown.Item
                   className="fw-bold text-danger"
                   onClick={handleToLogOut}
                 >

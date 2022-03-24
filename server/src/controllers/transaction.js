@@ -142,10 +142,11 @@ exports.getTransaction = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
   try {
     newUpdate = req.body;
-    console.log(newUpdate);
+
     const updateTransaction = await transaction.update(
       {
         ...newUpdate,
+        endDate: `${startDate}`,
       },
       {
         where: {
