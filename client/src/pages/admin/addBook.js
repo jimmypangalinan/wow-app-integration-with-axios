@@ -93,7 +93,10 @@ function AddBook() {
                   name="title"
                   onChange={handleChange}
                   placeholder="Title Book"
+                  required
                 />
+                <div className="valid-feedback">Username Ok!</div>
+                <div className="invalid-feedback">Silahkan isi username</div>
               </Form.Group>
               <Form.Control
                 style={{ backgroundColor: "#F4F1F1" }}
@@ -101,6 +104,7 @@ function AddBook() {
                 name="publicationDate"
                 onChange={handleChange}
                 placeholder="Publication Date"
+                required
               />
               <Form.Group className="mb-3" />
               <Form.Group className="mb-3">
@@ -110,6 +114,7 @@ function AddBook() {
                   name="pages"
                   onChange={handleChange}
                   placeholder="Pages"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -119,6 +124,7 @@ function AddBook() {
                   name="author"
                   onChange={handleChange}
                   placeholder="Author"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -128,6 +134,7 @@ function AddBook() {
                   name="isbn"
                   onChange={handleChange}
                   placeholder="ISBN"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -139,6 +146,7 @@ function AddBook() {
                   rows={4}
                   onChange={handleChange}
                   placeholder="About This Book"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -149,6 +157,7 @@ function AddBook() {
                     name="bookFile"
                     onChange={handleChange}
                     className="fileInput d-none "
+                    required
                   />
                   <img
                     src={Attach}
@@ -163,6 +172,7 @@ function AddBook() {
                     name="cover"
                     onChange={handleChange}
                     className="fileInput d-none "
+                    required
                   />
                   <img
                     src={Attach}

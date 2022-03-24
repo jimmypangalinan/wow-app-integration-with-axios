@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ReactReader, ReactReaderStyle } from "react-reader";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../config/api";
-import NavbarComponent from "../pages/components/navbarAdmin";
+import NavbarUser from "../pages/components/navbarUser";
 
 const ReadBook = () => {
   const [read, setRead] = useState({});
@@ -30,7 +30,7 @@ const ReadBook = () => {
   return (
     <div className="position-relative">
       <div>
-        <NavbarComponent />
+        <NavbarUser />
       </div>
       <div style={{ height: "100vh", position: "relative" }}>
         <ReactReader

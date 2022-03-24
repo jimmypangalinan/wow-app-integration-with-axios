@@ -46,6 +46,14 @@ exports.register = async (req, res) => {
       status: "Not subscribe",
     });
 
+    await profile.create({
+      gender: "",
+      address: "",
+      phone: "",
+      image: "",
+      idUser: newData.id,
+    });
+
     const dataToken = {
       id: newData.id,
     };

@@ -26,6 +26,19 @@ function Profile() {
 
   console.log(profile);
 
+  const [gambar, setGambar] = useState([]);
+
+  const getGambar = async () => {
+    try {
+      const response = await API.get("/profile");
+      setGambar(response.data.dataProfiles);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getGambar();
+  }, []);
+  console.log(gambar);
   //////////////////
   const navigate = useNavigate();
   const [state, dispatch] = useContext(UserContextToken);
@@ -60,8 +73,16 @@ function Profile() {
             }}
           />
         </div>
-        <div className="mb-4">
-          <img src={Foto} alt="" />
+        <div className="mb-4 py-4">
+          <img
+            src={`http://localhost:5000/uploads/profile/${gambar.image}`}
+            style={{
+              // borderRadius: 200,
+              clipPath: "circle()",
+              height: 130,
+              border: 200,
+            }}
+          />
         </div>
         <div className="my-4">
           <h4 className="fw-bold mb-4">

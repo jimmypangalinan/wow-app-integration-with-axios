@@ -15,13 +15,16 @@ exports.addTransaction = async (req, res) => {
     });
   }
   console.log(req.user.id);
+
   try {
-    newTransaction = req.body;
+    console.log(req.body);
     const createTransaction = await transaction.create({
-      ...newTransaction,
       idUser: req.user.id,
       transferProof: req.file.filename,
+      accountNumber: req.body.accountNumber,
       remainingActive: 0,
+      startDate: "",
+      endDate: "",
       userStatus: "Not Active",
       paymentStatus: "Pending",
     });
@@ -139,6 +142,7 @@ exports.getTransaction = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
   try {
     newUpdate = req.body;
+    console.log(newUpdate);
     const updateTransaction = await transaction.update(
       {
         ...newUpdate,
@@ -146,20 +150,6 @@ exports.updateTransaction = async (req, res) => {
       {
         where: {
           id: req.params.id,
-        },
-        include: {
-          model: user,
-          as: "user",
-          attributes: {
-            exclude: [
-              "role",
-              "email",
-              "status",
-              "password",
-              "createdAt",
-              "updatedAt",
-            ],
-          },
         },
         attributes: {
           exclude: ["createdAt", "updatedAt"],
@@ -176,6 +166,35 @@ exports.updateTransaction = async (req, res) => {
       },
     });
 
+    if (dataUpdate.paymentStatus == "Approved") {
+      await user.update(
+        {
+          status: "Subscribe",
+        },
+        {
+          where: {
+            id: dataUpdate.idUser,
+          },
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        }
+      );
+    } else {
+      await user.update(
+        {
+          status: "Not subscribe",
+        },
+        {
+          where: {
+            id: dataUpdate.idUser,
+          },
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        }
+      );
+    }
     res.status(200).send({
       status: "Success",
       data: {

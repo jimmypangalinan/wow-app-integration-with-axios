@@ -9,14 +9,13 @@ import "../../style/navbar.css";
 import Logo from "../../assets/icon-wow.png";
 import IconProfile from "../../assets/icon-people.png";
 import IconAddBook from "../../assets/add-book-icon.png";
-import IconTransaction from "../../assets/transaction.png";
 import IconLogOut from "../../assets/logout-icon.png";
 
-function NavbarComponent() {
+function NavbarUser() {
   const navigate = useNavigate();
 
-  function handleToAddBook() {
-    navigate("/addBook");
+  function handleToAfterLogin() {
+    navigate("/afterlogin");
   }
 
   // //////
@@ -39,9 +38,7 @@ function NavbarComponent() {
               src={Logo}
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
-              onClick={() => {
-                navigate("/transaction");
-              }}
+              onClick={handleToLogOut}
             />
           </Navbar.Brand>
           <Navbar.Brand>
@@ -50,21 +47,9 @@ function NavbarComponent() {
                 <img src={IconProfile} className="d-inline-block align-top" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="mt-2 dropdown-menu-center">
-                <Dropdown.Item className="fw-bold" onClick={handleToAddBook}>
+                <Dropdown.Item className="fw-bold" onClick={handleToAfterLogin}>
                   <img src={IconAddBook} className="me-3 my-2" />
-                  Add Book
-                </Dropdown.Item>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <Dropdown.Item
-                  className="fw-bold"
-                  onClick={() => {
-                    navigate("/transaction");
-                  }}
-                >
-                  <img src={IconTransaction} className="me-3 my-2" />
-                  Transaction
+                  Home
                 </Dropdown.Item>
                 <li>
                   <hr className="dropdown-divider" />
@@ -85,4 +70,4 @@ function NavbarComponent() {
   );
 }
 
-export default NavbarComponent;
+export default NavbarUser;

@@ -26,7 +26,7 @@ const { register, login, checkAuth } = require("../controllers/auth");
 const { addMyList, getMyList } = require("../controllers/myList");
 
 // profile
-const { getProfile } = require("../controllers/profile");
+const { getProfile, updateProfile } = require("../controllers/profile");
 
 // controller product
 const {
@@ -41,6 +41,7 @@ const {
 const { auth } = require("../middlewares/auth");
 const { uploadFile } = require("../middlewares/uploadFile");
 const { uploadProof } = require("../middlewares/uploadProof");
+const { uploadProfile } = require("../middlewares/uploadProfile");
 
 //  auth login
 router.post("/register", register);
@@ -73,5 +74,6 @@ router.get("/myLists", auth, getMyList);
 
 // profile
 router.get("/profile", auth, getProfile);
+router.patch("/updateProfile", auth, uploadProfile("image"), updateProfile);
 
 module.exports = router;

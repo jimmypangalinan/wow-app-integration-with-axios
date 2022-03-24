@@ -11,8 +11,17 @@ module.exports = {
       transferProof: {
         type: Sequelize.STRING,
       },
+      accountNumber: {
+        type: Sequelize.INTEGER,
+      },
       remainingActive: {
         type: Sequelize.INTEGER,
+      },
+      startDate: {
+        type: Sequelize.DATE,
+      },
+      endDate: {
+        type: Sequelize.DATE,
       },
       paymentStatus: {
         type: Sequelize.STRING,

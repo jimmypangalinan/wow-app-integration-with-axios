@@ -70,13 +70,16 @@ function ProfileActive() {
             </div>
           </div>
           <div className="col-9" id="premium">
-            <div className="">
+            <div className="row">
               <div className="position-sticky sticky-top">
                 <h3 className="py-4 fw-bold ">Profile</h3>
               </div>
             </div>
-            <div className="row rounded" style={{ backgroundColor: "#FFD9D9" }}>
-              <div className="col-8  ms-4 pt-5 pb-3">
+            <div
+              className="row rounded"
+              style={{ backgroundColor: "#FFD9D9", height: 400 }}
+            >
+              <div className="col-7  ms-4 pt-5 pb-3">
                 <div className="d-flex">
                   <div className="mt-1">
                     <img src={Mail} alt="" width={40} />
@@ -85,7 +88,7 @@ function ProfileActive() {
                     {profile ? (
                       <p className="fw-bold">{state.user.email}</p>
                     ) : (
-                      <p className="fw-bold">{state.user.email}</p>
+                      <p className="fw-bold">null</p>
                     )}
 
                     <p>email</p>
@@ -97,7 +100,6 @@ function ProfileActive() {
                   </div>
                   <div className="ms-4">
                     <h6 className="fw-bold">
-                      <span>Male</span>
                       {profile ? (
                         <span>{profile.gender}</span>
                       ) : (
@@ -138,12 +140,25 @@ function ProfileActive() {
                   </div>
                 </div>
               </div>
-              <div className="col-3">
+              <div className="col-4">
                 <div className="col pt-5">
-                  <img src={Foto} alt="" className="rounded" />
-                  <div className="row pt-4">
-                    <EditProfile />
-                  </div>
+                  {profile ? (
+                    <img
+                      src={`http://localhost:5000/uploads/profile/${profile.image}`}
+                      alt=""
+                      className=" img-fluid  shadow"
+                    />
+                  ) : (
+                    <img
+                      src={Foto}
+                      alt=""
+                      className="rounded img-fluid shadow"
+                      style={{ width: 300, height: 230 }}
+                    />
+                  )}
+                </div>
+                <div className="row pt-4 ">
+                  <EditProfile />
                 </div>
               </div>
             </div>

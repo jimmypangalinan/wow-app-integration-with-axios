@@ -15,6 +15,7 @@ function Subscribe() {
   const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     transferProof: "",
+    accountNumber: "",
   });
 
   const handleChange = (e) => {
@@ -34,13 +35,14 @@ function Subscribe() {
         },
       };
       console.log(form);
-      console.log(form.transferProof[0].name);
+
       const formData = new FormData();
       formData.set(
         "transferProof",
         form.transferProof[0],
         form.transferProof[0].name
       );
+      formData.set("accountNumber", form.accountNumber);
 
       console.log(formData);
       const response = await API.post("/transaction", formData, config);
@@ -104,10 +106,10 @@ function Subscribe() {
                 <form onSubmit={handleSubmit}>
                   <div className="col-10 offset-1 ">
                     <Form.Control
-                      type="password"
-                      id="inputPassword5"
-                      aria-describedby="passwordHelpBlock"
+                      type="number"
                       placeholder="Input Your Account Number"
+                      name="accountNumber"
+                      onChange={handleChange}
                     />
                   </div>
                   {message && message}

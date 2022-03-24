@@ -110,9 +110,8 @@ function Detailbooks() {
               <div className="col-5 mt-3">
                 <img
                   src={product.cover}
-                  alt=""
                   className="img-fluid shadow"
-                  style={{ borderRadius: 20 }}
+                  style={{ borderRadius: 20, height: 600 }}
                 />
               </div>
               <div className="col-6 ms-3 mt-3">
